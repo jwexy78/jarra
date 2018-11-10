@@ -29,7 +29,7 @@ Object* ReferenceObject::Assign( Object* other, ExecutionContext* context )
     return other;
 }
 
-Object* ReferenceObject::Finalize()
+Object* ReferenceObject::Finalize( const ExecutionContext* )
 {
     Object* toReturn = *reference_;
     toReturn->Acquire();

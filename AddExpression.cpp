@@ -34,8 +34,8 @@ Object* AddExpression::ToObject( ExecutionContext* context )
         left->Release();
         return nullptr;
     }
-    left = left->Finalize();
-    right = right->Finalize();
+    left = left->Finalize( context );
+    right = right->Finalize( context );
     LOG( "calling add on left = " + left->ToString() + ", right = " + right->ToString() );
     Object* ret = left->Add( right, context );
     left->Release();

@@ -29,12 +29,12 @@ Object* TryExpression::ToObject( ExecutionContext* context )
         {
             return nullptr;
         }
-        block = block->Finalize();
+        block = block->Finalize( context );
         return block;
     }
     else
     {
-        condition = condition->Finalize();
+        condition = condition->Finalize( context );
         return condition;
     }
 }

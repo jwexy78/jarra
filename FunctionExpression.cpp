@@ -24,7 +24,7 @@ Object* FunctionExpression::ToObject( ExecutionContext* context )
     {
         return nullptr;
     }
-    caller = caller->Finalize();
+    caller = caller->Finalize( context );
     context->EnterScope();
     Object* parameter = parameter_->ToObject( context );
     if( !parameter )
@@ -33,7 +33,7 @@ Object* FunctionExpression::ToObject( ExecutionContext* context )
         caller->Release();
         return nullptr;
     }
-    parameter = parameter->Finalize();
+    parameter = parameter->Finalize( context );
     Object* ret = caller->Call( parameter, context );
     caller->Release();
     parameter->Release();

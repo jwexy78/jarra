@@ -1,7 +1,7 @@
 import subprocess
 
 def run(jarraString):
-    process = subprocess.Popen(["./jarra", "-s", jarraString, "-r"], stdout=subprocess.PIPE)
+    process = subprocess.Popen(["./jarra", "-s", jarraString, "-nh"], stdout=subprocess.PIPE)
     output, error = process.communicate()
     if error:
         print(error)

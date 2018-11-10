@@ -33,7 +33,7 @@ Interpreter::ExecutionResult Interpreter::Run( std::string script, std::string& 
         LOG( "Runtime Error: " + error );
         return Interpreter::RUNTIME_ERROR;
     }
-    evaluated = evaluated->Finalize();
+    evaluated = evaluated->Finalize( context_ );
 
     error = "";
     output = evaluated->ToString();

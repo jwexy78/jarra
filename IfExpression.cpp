@@ -24,7 +24,7 @@ Object* IfExpression::ToObject( ExecutionContext* context )
     {
         return nullptr;
     }
-    condition = condition->Finalize();
+    condition = condition->Finalize( context );
     bool runBlock = condition->BoolValue();
     condition->Release();
     if( runBlock )
@@ -34,7 +34,7 @@ Object* IfExpression::ToObject( ExecutionContext* context )
         {
             return nullptr;
         }
-        block = block->Finalize();
+        block = block->Finalize( context );
         return block;
     }
     return new NoneObject();

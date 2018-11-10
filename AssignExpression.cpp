@@ -45,9 +45,9 @@ Object* AssignExpression::ToObject( ExecutionContext* context )
             left->Release();
             return nullptr;
         }
-        right = right->Finalize();
+        right = right->Finalize( context );
         Object* toReturn = left->Assign( right, context );
-        toReturn = toReturn->Finalize();
+        toReturn = toReturn->Finalize( context );
         return toReturn;
     }
     context->SetException( new StringObject( "Expected Variable or Reference on left side of assignment" ) );

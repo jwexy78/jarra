@@ -29,8 +29,8 @@ Object* IndexExpression::ToObject( ExecutionContext* context )
         caller->Release();
         return nullptr;
     }
-    caller = caller->Finalize();
-    parameter = parameter->Finalize();
+    caller = caller->Finalize( context );
+    parameter = parameter->Finalize( context );
     Object* ret = caller->Index( parameter, context );
     caller->Release();
     parameter->Release();

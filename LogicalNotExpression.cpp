@@ -21,7 +21,7 @@ Object* LogicalNotExpression::ToObject( ExecutionContext* context )
     {
         return nullptr;
     }
-    obj = obj->Finalize();
+    obj = obj->Finalize( context );
     bool boolValue = obj->BoolValue();
     return new BoolObject( !boolValue );
 }

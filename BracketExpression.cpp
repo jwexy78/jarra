@@ -18,7 +18,7 @@ Object* BracketExpression::ToObject( ExecutionContext* context )
 {
     if( content_->type_ == Expression::Empty )
     {
-        return (new ListObject())->Finalize();
+        return (new ListObject())->Finalize( context );
     }
     Object* content = content_->ToObject( context );
     if( !content )
@@ -29,17 +29,17 @@ Object* BracketExpression::ToObject( ExecutionContext* context )
     {
         // If it's an infinalized list such as 'a,b', the []'s are just
         // order of operations, so do nothing
-        content = content->Finalize();
+        content = content->Finalize( context );
         return content;
     }
     else
     {
         // Otherwise, put content in a new list and return the list
-        content = content->Finalize();
+        content = content->Finalize( context );
         ListObject* lobj = new ListObject();
         lobj->Append( content );
         content->Release();
-        lobj = lobj->Finalize();
+        lobj = lobj->Finalize( context );
         return lobj;
     }
 }

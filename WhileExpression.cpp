@@ -25,7 +25,7 @@ Object* WhileExpression::ToObject( ExecutionContext* context )
     {
         return nullptr;
     }
-    condition = condition->Finalize();
+    condition = condition->Finalize( context );
     bool runBlock = condition->BoolValue();
     condition->Release();
     Object* toReturn = new NoneObject();
@@ -37,7 +37,7 @@ Object* WhileExpression::ToObject( ExecutionContext* context )
         {
             return nullptr;
         }
-        block = block->Finalize();
+        block = block->Finalize( context );
         toReturn->Release();
         toReturn = block;
         // Re-interpret the condition
@@ -46,7 +46,7 @@ Object* WhileExpression::ToObject( ExecutionContext* context )
         {
             return nullptr;
         }
-        condition = condition->Finalize();
+        condition = condition->Finalize( context );
         runBlock = condition->BoolValue();
         condition->Release();
     }

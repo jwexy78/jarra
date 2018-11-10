@@ -26,8 +26,8 @@ Object* DivideExpression::ToObject( ExecutionContext* context )
         left->Release();
         return nullptr;
     }
-    left = left->Finalize();
-    right = right->Finalize();
+    left = left->Finalize( context );
+    right = right->Finalize( context );
     Object* ret = left->Divide( right, context );
     left->Release();
     right->Release();

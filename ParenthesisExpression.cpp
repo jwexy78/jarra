@@ -20,6 +20,6 @@ Object* ParenthesisExpression::ToObject( ExecutionContext* context )
     {
         return nullptr;
     }
-    content = content->Finalize();
+    content = content->Finalize( context );
     return content;
 }

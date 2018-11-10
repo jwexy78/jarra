@@ -55,10 +55,13 @@ void ExecutionContext::SetVariable( std::string key, Object* value )
     scope[key] = value;
 }
 
-Object* ExecutionContext::GetVariable( std::string key )
+Object* ExecutionContext::GetVariable( std::string key, int maxScope ) const
 {
+    if( maxScope < 0 ) {
+        maxScope = scopes_.size() - 1;
+    }
     // Look through each scope for the variable, top town
-    for( int i = scopes_.size() - 1; i >= 0; --i )
+    for( int i = maxScope; i >= 0; --i )
     {
         auto itr = scopes_[i].find( key );
         if( itr != scopes_[i].end() )
@@ -88,7 +91,7 @@ void ExecutionContext::ExitScope()
     scopes_.erase(scopes_.begin() + (scopes_.size() - 1) );
 }
 
-std::unordered_map<std::string,Object*>* ExecutionContext::GetCurrentScope()
+int ExecutionContext::GetCurrentScope() const
 {
-    return &scopes_[scopes_.size() - 1];
+    return scopes_.size() - 1;
 }

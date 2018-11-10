@@ -16,20 +16,34 @@ public:
     void SetException( Object* exception );
     Object* GetException();
     void ClearException();
+
+    /**
+     * Set a variable in the current scope
+     */
     void SetVariable( std::string key, Object* value );
-    Object* GetVariable( std::string key );
+
+    /**
+     * Get a reference to a variable, searching from the given scope down
+     * or the top scope if the given scope is negative
+     */
+    Object* GetVariable( std::string key, int maxScope = -1 ) const;
+
     /**
      * Enter a new variable scope.
      * All new variables will now be made in the new scope
      */
     void EnterScope();
+
     /**
      * Leaves the last-level variable scope.
      * Erases all variables made in the old scope
      */
     void ExitScope();
 
-    std::unordered_map<std::string,Object*>* GetCurrentScope();
+    /**
+     * Get the level of the current scope
+     */
+    int GetCurrentScope() const;
 
 private:
     Object* exception_;

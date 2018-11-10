@@ -2,10 +2,11 @@
 #include "StringObject.hpp"
 #include "Logger.hpp"
 #include "NoneObject.hpp"
+#include "ExecutionContext.hpp"
 
-WeakReferenceObject::WeakReferenceObject( std::unordered_map<std::string,Object*>* reference, std::string name, Object* root )
+WeakReferenceObject::WeakReferenceObject( int scope, std::string name, Object* root )
     : Object( Object::WeakReference )
-    , reference_( reference )
+    , scope_( scope )
     , name_( name )
     , root_( root )
 {
@@ -26,27 +27,13 @@ bool WeakReferenceObject::BoolValue()
 Object* WeakReferenceObject::Assign( Object* other, ExecutionContext* context )
 {
     LOG( "assigning weak reference @ " + THIS_STR );
-    auto itr = reference_->find( name_ );
-    if( itr != reference_->end() && itr->second )
-    {
-        (itr->second)->Release();
-    }
-    (*reference_)[name_] = other;
-    other->Acquire();
+    context->SetVariable( name_, other );
     return other;
 }
-Object* WeakReferenceObject::Finalize()
+Object* WeakReferenceObject::Finalize( const ExecutionContext* context )
 {
     LOG( "finalizing weak reference @ " + THIS_STR );
-    auto itr = reference_->find( name_ );
-    if( itr != reference_->end() && itr->second )
-    {
-        (itr->second)->Acquire();
-        Release();
-        return itr->second;
-    }
-    return new NoneObject();
-    return nullptr; // *** NOTE! The Error Message Must be Set By Whatever Calls This!
+    return context->GetVariable( name_, scope_ );
 }
 
 void WeakReferenceObject::Destroy()

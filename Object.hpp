@@ -92,7 +92,7 @@ public:
      * Finalizes the Object, turning it from some sort of non-directly usable reference
      * to a direct object
      */
-    virtual Object* Finalize();
+    virtual Object* Finalize( const ExecutionContext* context );
 
     // Helper-Functions to throw with an 
     Object* ThrowNotImplemented( std::string operation, ObjectType otherType, ExecutionContext* context );

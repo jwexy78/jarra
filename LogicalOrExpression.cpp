@@ -24,7 +24,7 @@ Object* LogicalOrExpression::ToObject( ExecutionContext* context )
     {
         return nullptr;
     }
-    left = left->Finalize();
+    left = left->Finalize( context );
     bool leftVal = left->BoolValue();
     left->Release();
     if( leftVal )
@@ -36,7 +36,7 @@ Object* LogicalOrExpression::ToObject( ExecutionContext* context )
     {
         return nullptr;
     }
-    right = right->Finalize();
+    right = right->Finalize( context );
     bool rightVal = right->BoolValue();
     right->Release();
     return new BoolObject( rightVal );

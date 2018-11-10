@@ -20,11 +20,11 @@ Object* SequenceExpression::ToObject( ExecutionContext* context )
 {
     Object* left = left_->ToObject( context );
     if( !left ) return nullptr;
-    left = left->Finalize();
+    left = left->Finalize( context );
     left->Release();
     Object* right = right_->ToObject( context );
     if( !right )
         return nullptr;
-    right = right->Finalize();
+    right = right->Finalize( context );
     return right;
 }

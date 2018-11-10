@@ -183,7 +183,7 @@ void Object::Destroy()
 
 }
 
-Object* Object::Finalize()
+Object* Object::Finalize( const ExecutionContext* )
 {
     return this;
 }

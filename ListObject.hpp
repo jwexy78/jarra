@@ -10,13 +10,13 @@ public:
     ListObject();
     ListObject( Object* left, Object* right );
     ListObject( ListObject* other );
-    std::string ToString();
-    bool BoolValue();
-    Object* Join( Object* other, ExecutionContext* context );
+    std::string ToString() override;
+    bool BoolValue() override;
+    Object* Join( Object* other, ExecutionContext* context ) override;
     void Append( Object* other );
-    Object* Index( Object* other, ExecutionContext* context );
-    void Destroy();
-    ListObject* Finalize();
+    Object* Index( Object* other, ExecutionContext* context ) override;
+    void Destroy() override;
+    ListObject* Finalize( const ExecutionContext* ) override;
 
     std::vector<Object*> contents_;
     bool finalized_;

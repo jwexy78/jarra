@@ -85,7 +85,7 @@ Object* ListObject::Index( Object* other, ExecutionContext* context )
     return ThrowIndexNotImplemented( other->type_, context );
 }
 
-ListObject* ListObject::Finalize()
+ListObject* ListObject::Finalize( const ExecutionContext* )
 {
     finalized_ = true;
     return this;

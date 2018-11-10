@@ -8,9 +8,10 @@ class VariableExpression : public Expression
 {
 public:
     VariableExpression( std::string value );
-    std::ostream& operator<<( std::ostream& os );
-    Object* ToObject( ExecutionContext* context );
+    std::ostream& operator<<( std::ostream& os ) override;
+    Object* ToObject( ExecutionContext* context ) override;
     std::string GetValue();
+
 private:
     std::string value_;
 };

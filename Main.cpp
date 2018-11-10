@@ -9,67 +9,71 @@
 #define NAME "Jarra"
 #define VERSION "0.0.2"
 
+// Command-line variables
+bool runScript = false;
+std::string script;
+
+bool runFile = false;
+std::string filename;
+
+bool runInteractive = true;
+
+bool printResults = true;
+
+bool printHeader = true;
+
+void printUsage()
+{
+    std::cout << "\n\tUsage: ./jarra [file] [flags...]\n\n";
+    std::cout << "\t\t-nh: don't print the jarra header\n";
+    std::cout << "\t\t-help: show the help menu\n";
+    std::cout << "\n";
+}
+
+bool parseArgs( int argc, char** argv )
+{
+    if( argc == 1 ) {
+        return true;
+    }
+    int flagStart = 1;
+    // Check if first arg is a file
+    if( argv[1][0] != '-' ) {
+        runFile = true;
+        filename = argv[1];
+        printResults = false;
+        runInteractive = false;
+        printHeader = false;
+        flagStart = 2;
+    }
+
+    for( int i = flagStart; i < argc; ++i )
+    {
+        if( !strcmp( argv[i], "-i" ) ) {
+            runInteractive = true;
+        } else if( !strcmp( argv[i], "-nh" ) ) {
+            printHeader = false;
+        } else if( !strcmp( argv[i], "-s" ) ) {
+            runScript = true;
+            i++;
+            script = argv[i];
+            runInteractive = false;
+        } else {
+            return false;
+        }
+    }
+    return true;
+}
+
 int main( int argc, char** argv )
 {
     Interpreter interpreter;
 
-    bool runFile = false;
-    std::string filename;
-
-    bool print = false;
-    bool printHeader = true;
-
-    bool runScript = false;
-    std::string script;
-
-    bool runInteractive = true;
-    bool printResults = true;
+    if( !parseArgs( argc, argv ) ) {
+        printUsage();
+        return 1;
+    }
 
     Logger::Log( NAME " main() starting" );
-
-    for( int i = 1; i < argc; ++i )
-    {
-        Logger::Log( "Processing Flag: " + std::string( argv[i] ) );
-        if( !strcmp( argv[i], "-p" ) )
-        {
-            print = true;
-        }
-        else if( !strcmp( argv[i], "-f" ) )
-        {
-            runFile = true;
-            printHeader = false;
-            filename = argv[i+1];
-            i++;
-            runInteractive = false;
-            printResults = false;
-        }
-        else if( !strcmp( argv[i], "-s" ) )
-        {
-            runScript = true;
-            printHeader = false;
-            script = argv[i+1];
-            i++;
-            runInteractive = false;
-            printResults = false;
-        }
-        else if( !strcmp( argv[i], "-i" ) )
-        {
-            runInteractive = true;
-        }
-        else if( !strcmp( argv[i], "-r" ) )
-        {
-            printResults = true;
-        }
-        else if( !strcmp( argv[i], "-nh" ) )
-        {
-            printHeader = false;
-        }
-        else
-        {
-            std::cerr << "'" << argv[i] << "' is not a valid flag\n";
-            return 1;
-        }
-    }
 
     std::string output;
     std::string error;

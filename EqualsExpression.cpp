@@ -27,8 +27,8 @@ Object* EqualsExpression::ToObject( ExecutionContext* context )
         left->Release();
         return nullptr;
     }
-    left = left->Finalize();
-    right = right->Finalize();
+    left = left->Finalize( context );
+    right = right->Finalize( context );
     BoolObject* ret = left->Equals( right, context );
     left->Release();
     right->Release();

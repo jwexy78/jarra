@@ -7,15 +7,15 @@
 class WeakReferenceObject : public Object
 {
 public:
-    WeakReferenceObject( std::unordered_map<std::string,Object*>* variables, std::string name, Object* root );
+    WeakReferenceObject( int scope, std::string name, Object* root );
 
-    std::string ToString();
-    bool BoolValue();
-    Object* Assign( Object* other, ExecutionContext* context );
-    Object* Finalize();
-    void Destroy();
+    std::string ToString() override;
+    bool BoolValue() override;
+    Object* Assign( Object* other, ExecutionContext* context ) override;
+    Object* Finalize( const ExecutionContext* context ) override;
+    void Destroy() override;
 
-    std::unordered_map<std::string,Object*>* reference_;
+    int scope_;
     std::string name_;
     Object* root_;
 };

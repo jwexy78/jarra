@@ -8,11 +8,11 @@ class ReferenceObject : public Object
 public:
     ReferenceObject( Object** reference, Object* root );
 
-    std::string ToString();
-    bool BoolValue();
-    Object* Assign( Object* other, ExecutionContext* context );
-    Object* Finalize();
-    void Destroy();
+    std::string ToString() override;
+    bool BoolValue() override;
+    Object* Assign( Object* other, ExecutionContext* context ) override;
+    Object* Finalize( const ExecutionContext* ) override;
+    void Destroy() override;
 
     Object** reference_;
     Object* root_;
