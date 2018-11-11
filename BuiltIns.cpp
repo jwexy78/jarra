@@ -118,7 +118,7 @@ public:
             }
             if( len != contents.length() )
             {
-                context->SetException( new StringObject( "Could not parse '" + contents + "' as a string" ) );
+                context->SetException( new StringObject( "Could not parse '" + contents + "' as an Integer" ) );
                 return nullptr;
             }
             return new IntObject( val );

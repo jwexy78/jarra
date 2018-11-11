@@ -60,6 +60,9 @@ Object* ExecutionContext::GetVariable( std::string key, int maxScope ) const
     if( maxScope < 0 ) {
         maxScope = scopes_.size() - 1;
     }
+    if( maxScope > scopes_.size() - 1 ) {
+        maxScope = scopes_.size() - 1;
+    }
     // Look through each scope for the variable, top town
     for( int i = maxScope; i >= 0; --i )
     {

@@ -32,8 +32,12 @@ Object* WeakReferenceObject::Assign( Object* other, ExecutionContext* context )
 }
 Object* WeakReferenceObject::Finalize( const ExecutionContext* context )
 {
-    LOG( "finalizing weak reference @ " + THIS_STR );
-    return context->GetVariable( name_, scope_ );
+    LOG( "finalizing weak reference '" + name_ + "' @ " + THIS_STR );
+    Object* obj = context->GetVariable( name_, scope_ );
+    if( !obj ) {
+        return new NoneObject();
+    }
+    return obj;
 }
 
 void WeakReferenceObject::Destroy()
