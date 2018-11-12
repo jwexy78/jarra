@@ -76,7 +76,14 @@ tests = [
     # If and While Expressions
     ("x = 5; y = False; if( x && y ) { x = 4 }; x",    "5"),
     ("x = 0; y = 1; while (x < 3) { x = x + 1; y = y * 2; y }",  "8"),
-
+    # Code Blocks
+    ("{ 1 + 2 }()", "3"),
+    ("a = { 1 + 2 }; a()", "3"),
+    ("a = { b }; a()", "None"),
+    ("a = { b }; b = \"hello!\"; a()", "hello!"),
+    ("a = { b }; a( b = 2 )", "2"),
+    ("a = { b = 4 }; b = 2; a(); b", "2"),
+    ("a = { x + 1 }; a( x = 2 ) + a( x = 6 )", "10"),
     ("","None")
 ]
 

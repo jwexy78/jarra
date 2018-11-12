@@ -1,5 +1,6 @@
 # Jarra
-Version 0.0.2
+Version 0.0.3
+
 The Jarra language is designed to be an imperitive, interpreted language where all code is the composition of primitive types and operators. The design is that everything is interpreted the same way regardless of context, which can be a little different from other languages.
 
 ## Syntax Overview
@@ -185,12 +186,35 @@ Because of Jarra's "Everything is an operator" mentality, things like the follow
     a = False; a = if( a ) { 5 }; a
         None
     
-    
-    
-    
-    
-    
-    
+##### `while`
+The `while` keyword continues to execute the body of the expression while the condition evaluates to `True`. It returns the result of the last iteration of the loop run, or `None` if the loop is never run.
+
+    a = 0; b = 0; while( !( a == 5 ) ) { a = a + 1; b = b - 1; b }
+        -5
+
+### Code Blocks
+
+A code block is a Jarra object that references an expression but does not execute it. Any expression only wrapped in braces `{}` is a code block, and it can be passed around like a variable. To execute the block, the function operator (`()` after the block) is called. For example:
+
+    { 1 + 2 }()
+        3
+    a = { 1 + 2 }; a()
+        3
+    a = { b }; a()
+        None
+    a = { b }; b = "hello!"; a()
+        "hello!"
+
+##### Variable Scoping
+In Jarra, code blocks can be used similarly to functions in other languages. Unlike most languages though, Jarra does not have explicit parameters for these blocks. Instead, a variable scoping paradigm is used. Before the parameter of a function is executed, a new scope is created. The block is called in the new scope, and then the scope is deleted after the block returns. Note that because of this, code blocks cannot modify variables in an external scope, but they may read them.
+
+    a = { b }; a( b = 2 )
+        2
+    a = { b = 4 }; b = 2; a(); b
+        2
+    a = { x + 1 }; a( x = 2 ) + a( x = 6 )
+        10
+
     
     
     

@@ -11,7 +11,7 @@ public:
     ~CodeBlockExpression();
     std::ostream& operator<<( std::ostream& os ) override;
     Object* ToObject( ExecutionContext* context ) override;
-    
+
 protected:
     Expression* content_;
 };
