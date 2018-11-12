@@ -9,8 +9,9 @@ class CodeBlockExpression : public Expression
 public:
     CodeBlockExpression( Expression* content );
     ~CodeBlockExpression();
-    std::ostream& operator<<( std::ostream& os );
-    Object* ToObject( ExecutionContext* context );
+    std::ostream& operator<<( std::ostream& os ) override;
+    Object* ToObject( ExecutionContext* context ) override;
+    
 protected:
     Expression* content_;
 };

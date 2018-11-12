@@ -9,8 +9,6 @@ CodeBlockExpression::CodeBlockExpression( Expression* content )
 
 CodeBlockExpression::~CodeBlockExpression()
 {
-    delete content_;
-    content_ = nullptr;
 }
 
 std::ostream& CodeBlockExpression::operator<<( std::ostream& os )

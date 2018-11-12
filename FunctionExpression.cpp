@@ -35,7 +35,9 @@ Object* FunctionExpression::ToObject( ExecutionContext* context )
     }
     parameter = parameter->Finalize( context );
     Object* ret = caller->Call( parameter, context );
-    ret = ret->Finalize( context );
+    if( ret ) {
+        ret = ret->Finalize( context );
+    }
     caller->Release();
     parameter->Release();
     context->ExitScope();
