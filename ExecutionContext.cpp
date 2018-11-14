@@ -1,5 +1,6 @@
 #include "ExecutionContext.hpp"
 #include "Object.hpp"
+#include "StringObject.hpp"
 
 ExecutionContext::ExecutionContext()
     : exception_( nullptr )
@@ -14,6 +15,11 @@ ExecutionContext::~ExecutionContext()
     {
         ExitScope();
     }
+}
+
+void ExecutionContext::SetException( std::string message )
+{
+    SetException( new StringObject( message ) );
 }
 
 void ExecutionContext::SetException( Object* exception )

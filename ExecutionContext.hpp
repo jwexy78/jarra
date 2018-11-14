@@ -13,6 +13,7 @@ public:
     /**
      * Sets an exception, if one is not already set
      */
+    void SetException( std::string message );
     void SetException( Object* exception );
     Object* GetException();
     void ClearException();
