@@ -133,6 +133,53 @@ public:
     }
 };
 
+class FloatFunctionObject : public FunctionObject
+{
+public:
+    Object* Call( Object* parameter, ExecutionContext* context )
+    {
+        if( parameter->type_ == Int )
+        {
+            IntObject* obj = reinterpret_cast<IntObject*>( parameter );
+            return new FloatObject( obj->data_ );
+        }
+        if( parameter->type_ == Float )
+        {
+            FloatObject* obj = reinterpret_cast<FloatObject*>( parameter );
+            return new FloatObject( obj->data_ );
+        }
+        if( parameter->type_ == String )
+        {
+            StringObject* obj = reinterpret_cast<StringObject*>( parameter );
+            std::string contents = obj->data_;
+            size_t len;
+            float val;
+            try
+            {
+                val = stof( contents, &len );
+            }
+            catch( std::exception e )
+            {
+                len = -1;
+            }
+            if( len != contents.length() )
+            {
+                context->SetException( new StringObject( "Could not parse '" + contents + "' as an Integer" ) );
+                return nullptr;
+            }
+            return new FloatObject( val );
+        }
+        if( parameter->type_ == Bool )
+        {
+            BoolObject* obj = reinterpret_cast<BoolObject*>( parameter );
+            return new FloatObject( obj->value_ ? 1.0 : 0.0 );
+        }
+        context->SetException( new StringObject( "Invalid parameter type to 'int'" ) );
+        return nullptr;
+    }
+};
+
+
 class SystemObject : public FunctionObject
 {
 public:
@@ -150,20 +197,67 @@ public:
     }
 };
 
+class MapObject : public FunctionObject
+{
+public:
+    Object* Call( Object* parameter, ExecutionContext* context )
+    {
+        if( parameter->type_ == List )
+        {
+            ListObject* argument = reinterpret_cast<ListObject*>( parameter );
+            if( argument->contents_.size() != 2 ) {
+                context->SetException( "`map` requires a list of two arguments" );
+                return nullptr;
+            }
+
+            if( argument->contents_[1]->type_ != List ) {
+                context->SetException( "`map` requires the second value in the argument list to be a list" );
+                return nullptr;
+            }
+            ListObject* list = reinterpret_cast<ListObject*>( argument->contents_[1] );
+            Object* functor = argument->contents_[0];
+            functor = functor->Finalize( context );
+
+            ListObject* output = new ListObject();
+            for( Object* obj : list->contents_ ) {
+                Object* result = functor->Call( obj, context );
+                if( !result ) {
+                    output->Release();
+                    return nullptr;
+                }
+                result = result->Finalize( context );
+                output->Append( result );
+            }
+            return output;
+        }
+        context->SetException( new StringObject( "Invalid parameter type to 'map' - a list is required" ) );
+        return nullptr;
+    }
+};
+
 void BuiltIns::SetupBuiltins( ExecutionContext* context )
 {
     Object* obj;
 
-    ADD_BUILTIN( "print", PrintObject() );
-    ADD_BUILTIN( "println", PrintlnObject() );
-    ADD_BUILTIN( "readline", GetLineObject() );
+    // Pre-Defined Variables
     ADD_BUILTIN( "True", BoolObject( true ) );
     ADD_BUILTIN( "False", BoolObject( false ) );
     ADD_BUILTIN( "None", NoneObject() );
-    ADD_BUILTIN( "Pi", FloatObject( 3.14 ) );
+    ADD_BUILTIN( "Pi", FloatObject( 3.1415926536 ) );
+    ADD_BUILTIN( "e", FloatObject( 2.718281828 ) );
+    // Print
+    ADD_BUILTIN( "print", PrintObject() );
+    ADD_BUILTIN( "println", PrintlnObject() );
+    // Conversions
     ADD_BUILTIN( "bool", TruthObject() );
-    ADD_BUILTIN( "len", LenObject() );
     ADD_BUILTIN( "str", StrObject() );
     ADD_BUILTIN( "int", IntFunctionObject() );
+    ADD_BUILTIN( "float", FloatFunctionObject() );
+    // List Operations
+    ADD_BUILTIN( "len", LenObject() );
+    ADD_BUILTIN( "map", MapObject() );
+
+    ADD_BUILTIN( "readline", GetLineObject() );
+
     ADD_BUILTIN( "system", SystemObject() );
 }

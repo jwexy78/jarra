@@ -84,6 +84,54 @@ tests = [
     ("a = { b }; a( b = 2 )", "2"),
     ("a = { b = 4 }; b = 2; a(); b", "2"),
     ("a = { x + 1 }; a( x = 2 ) + a( x = 6 )", "10"),
+
+    # Built In Functions. Remember that the result is ALWAYS printed at the end
+        # print
+    ("print(5)", "5None"),
+    ("print(-1.23)", "-1.23None"),
+    ("print(1==1)", "TrueNone"),
+    ("print()", "NoneNone"),
+    ("print(\"hi :)\")", "hi :)None"),
+        # println
+    ("println(5)", "5\nNone"),
+    ("println(-1.23)", "-1.23\nNone"),
+    ("println(1==1)", "True\nNone"),
+    ("println()", "None\nNone"),
+    ("println(\"hi :)\")", "hi :)\nNone"),
+        # bool
+    ("bool(1)", "True"),
+    ("bool(0.0)", "False"),
+    ("bool(\"\")", "False"),
+    ("bool(\"stuff\")", "True"),
+    ("bool([])", "False"),
+    ("bool([5])", "True"),
+        # str
+    ("str(1)", "1"),
+    ("str(1) + 2", "12"),
+    ("str(23.50)", "23.5"),
+    ("str([])", "[]"),
+    ("str([1])", "[1]"),
+    ("str([1,[2,3],4])", "[1, [2, 3], 4]"),
+        # int
+    ("int(True)", "1"),
+    ("int(False)", "0"),
+    ("int(12.999)", "12"),
+    ("int(45)", "45"),
+    ("int(\"23\") + 1", "24"),
+        # float
+    ("float(True)", "1.0"),
+    ("float(False)", "0.0"),
+    ("float(12)", "12.0"),
+    ("float(45.5)", "45.5"),
+    ("float(\"22.5\") + 1", "23.5"),
+        # len
+    ("len([])", "0"),
+    ("len([[]])", "1"),
+    ("len([1,4,\"a\"])", "3"),
+        # map
+    ("map(println,[1,2,3])", "1\n2\n3\n[None, None, None]"),
+    ("map(int,[2.2,-1.45,12.556])", "[2, -1, 12]"),
+
     ("","None")
 ]
 

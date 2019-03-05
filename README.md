@@ -215,10 +215,41 @@ In Jarra, code blocks can be used similarly to functions in other languages. Unl
     a = { x + 1 }; a( x = 2 ) + a( x = 6 )
         10
 
-    
-    
-    
-    
-    
-    
-    
+### Built In Functions
+
+In addition to code blocks, Jarra offers a number of built in functions.
+
+##### `print`
+
+Prints the string representation of an argument.
+
+##### `println`
+
+Prints the string representation of an argument, followed by a new line character.
+
+##### `bool`
+
+Converts the argument to a Boolean.
+
+##### `str`
+
+Converts the argument to a String.
+
+##### `int`
+
+Converts the argument to an Integer.
+
+##### `float`
+
+Converts the argument to a Float.
+
+##### `len`
+
+Returns the length of a list passed in as the argument.
+
+##### `map`
+
+Maps a function to a list. For convenience, it takes a single list of two elements where the second element is a list and returns a list containing the first element in the argument list called on every element in the second's list.
+
+    map(int,["1","45","23"])
+        [1, 45, 23]
